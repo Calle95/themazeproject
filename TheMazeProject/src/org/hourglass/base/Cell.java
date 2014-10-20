@@ -21,7 +21,7 @@ public class Cell
 	{
 		visited = true;
 	}
-	
+
 	public boolean isVisited()
 	{
 		return visited;

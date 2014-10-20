@@ -15,7 +15,7 @@ public class MazeGenerator
 	{
 		GRID_WIDTH = x;
 		GRID_HEIGHT = y;
-		
+
 		ArrayList<Cell> stack = new ArrayList<Cell>();
 		ArrayList<Cell> remainingCells = new ArrayList<Cell>();
 
@@ -40,10 +40,10 @@ public class MazeGenerator
 		maze[currentCell.getX()][currentCell.getY()].visit();
 		stack.add(maze[currentCell.getX()][currentCell.getY()]);
 		remainingCells.remove(maze[currentCell.getX()][currentCell.getY()]);
-		
-		//Initiating random with given seed
+
+		// Initiating random with given seed
 		Random r = new Random(seed);
-		
+
 		while (!remainingCells.isEmpty())
 		{
 			if (checkForNeighbors(currentCell.getX(), currentCell.getY()).isEmpty())
@@ -53,27 +53,19 @@ public class MazeGenerator
 			} else
 			{
 
-				currentCell = checkForNeighbors(currentCell.getX(), currentCell.getY())
-						.get(Math.abs(r.nextInt())
-								% checkForNeighbors(currentCell.getX(),
-										currentCell.getY()).size());
+				currentCell = checkForNeighbors(currentCell.getX(), currentCell.getY()).get(Math.abs(r.nextInt()) % checkForNeighbors(currentCell.getX(), currentCell.getY()).size());
 				maze[currentCell.getX()][currentCell.getY()].visit();
 				remainingCells.remove(currentCell);
 
-				maze[currentCell.getX()][currentCell.getY()].removeWall(wallToRemove(
-						currentCell.getX(), currentCell.getY(),
-						stack.get(stack.size() - 1).getX(),
-						stack.get(stack.size() - 1).getY()));
-				maze[stack.get(stack.size() - 1).getX()][stack.get(stack.size() - 1).getY()]
-						.removeWall(wallToRemove(stack.get(stack.size() - 1).getX(),
-								stack.get(stack.size() - 1).getY(), currentCell.getX(),
-								currentCell.getY()));
+				maze[currentCell.getX()][currentCell.getY()].removeWall(wallToRemove(currentCell.getX(), currentCell.getY(), stack.get(stack.size() - 1).getX(), stack.get(stack.size() - 1).getY()));
+				maze[stack.get(stack.size() - 1).getX()][stack.get(stack.size() - 1).getY()].removeWall(wallToRemove(stack.get(stack.size() - 1).getX(), stack.get(stack.size() - 1).getY(),
+						currentCell.getX(), currentCell.getY()));
 
 				stack.add(maze[currentCell.getX()][currentCell.getY()]);
 			}
 		}
-		
-		if(remainingCells.isEmpty())
+
+		if (remainingCells.isEmpty())
 		{
 			stack.removeAll(stack);
 		}
@@ -92,7 +84,7 @@ public class MazeGenerator
 		else
 			return 0;
 	}
-	
+
 	private static ArrayList<Cell> checkForNeighbors(int x, int y)
 	{
 		ArrayList<Cell> res = new ArrayList<Cell>();
@@ -136,5 +128,10 @@ public class MazeGenerator
 		}
 
 		return res;
+	}
+
+	public Cell[][] getMaze()
+	{
+		return maze;
 	}
 }
