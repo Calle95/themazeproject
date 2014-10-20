@@ -130,7 +130,7 @@ public class MazeGenerator
 		return res;
 	}
 
-	public Cell[][] getMaze()
+	public static Cell[][] getMaze()
 	{
 		return maze;
 	}
