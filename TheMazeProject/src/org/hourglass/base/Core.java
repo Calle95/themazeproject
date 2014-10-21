@@ -4,7 +4,6 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.RenderingHints.Key;
 import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
@@ -16,16 +15,16 @@ public class Core extends Canvas implements Runnable
 	 */
 	private static final long serialVersionUID = 3787548247542872040L;
 
-	private final String TITLE = "Maze Generator";
-	private boolean running;
-	private boolean debug;
-	private Dimension dim;
-	private int gridWidth;
-	private int gridHeight;
-	private int blockSize;
+	private static final String TITLE = "Maze Generator";
+	private static boolean running;
+	private static boolean debug;
+	private static Dimension dim;
+	private static int gridWidth;
+	private static int gridHeight;
+	private static int blockSize;
 
-	private Cell[][] maze;
-	private Input input;
+	private static Cell[][] maze;
+	private static Input input;
 
 //	private JFrame frame;
 
@@ -55,15 +54,16 @@ public class Core extends Canvas implements Runnable
 		addMouseListener(input);
 		addMouseMotionListener(input);
 
-
 		JFrame frame = new JFrame(TITLE);
 		frame.setResizable(false);
 		frame.add(this);
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.toFront();
 		frame.setVisible(true);
 		
+		requestFocus();
 
 		this.debug = debug;
 		running = true;
@@ -86,14 +86,15 @@ public class Core extends Canvas implements Runnable
 				while (MazeGenerator.perfomStep())
 				{
 					maze = MazeGenerator.getMaze();
-					try
-					{
-						Thread.sleep(50);
-					} catch (InterruptedException e)
-					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+//					try
+//					{
+//						Thread.sleep(50);
+//					} catch (InterruptedException e)
+//					{
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+					render();
 				}
 
 			}
@@ -108,7 +109,7 @@ public class Core extends Canvas implements Runnable
 	public void update()
 	{
 		input.update();
-		input.printKeys();
+		input.printMousePos();
 //		if(input.keyPressed(KeyBoa);)
 	}
 
@@ -130,7 +131,7 @@ public class Core extends Canvas implements Runnable
 		// TODO: rendering mechanic
 
 		// NON-debug code
-		if (!debug)
+//		if (!debug)
 		{
 			for (int y = 0; y < gridHeight; y++)
 			{
@@ -171,6 +172,7 @@ public class Core extends Canvas implements Runnable
 
 	public static void main(String[] args)
 	{
-		Window.createWindow();
+//		Window.createWindow();
+		new Core(60, 50, 8, 1289312983, false);
 	}
 }

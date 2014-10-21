@@ -123,8 +123,10 @@ public class Window
 		btnGenerate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
-				close();
-				new Core(Integer.valueOf(txtFWidth.getText()), Integer.valueOf(txtFHeight.getText()), Integer.valueOf(txtFBlockS.getText()), Integer.valueOf(txtFSeed.getText()), chckbxDebugMode.isSelected());
+//				close();
+				MazeWindow mazeWindow = new MazeWindow(Integer.valueOf(txtFWidth.getText()), Integer.valueOf(txtFHeight.getText()), Integer.valueOf(txtFBlockS.getText()), Integer.valueOf(txtFSeed.getText()), chckbxDebugMode.isSelected());
+				Thread t = new Thread(mazeWindow);
+				t.run();
 			}
 		});
 		btnGenerate.setBounds(10, 197, 205, 49);
