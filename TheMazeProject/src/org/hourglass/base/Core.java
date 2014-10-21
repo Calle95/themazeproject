@@ -4,6 +4,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.RenderingHints.Key;
 import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
@@ -19,10 +20,14 @@ public class Core extends Canvas implements Runnable
 	private boolean running;
 	private boolean debug;
 	private Dimension dim;
+	private int gridWidth;
+	private int gridHeight;
+	private int blockSize;
 
 	private Cell[][] maze;
+	private Input input;
 
-	private JFrame frame;
+//	private JFrame frame;
 
 	public Core(int width, int height, int blockSize, long seed, boolean debug)
 	{
@@ -36,22 +41,35 @@ public class Core extends Canvas implements Runnable
 			maze = MazeGenerator.getMaze();
 		}
 
+		this.gridWidth = width;
+		this.gridHeight = height;
+		this.blockSize = blockSize;
+		
+		input = new Input();
+		
 		dim = new Dimension(width * blockSize, height * blockSize);
 		setPreferredSize(dim);
 		setMinimumSize(dim);
 		setMaximumSize(dim);
+		addKeyListener(input);
+		addMouseListener(input);
+		addMouseMotionListener(input);
 
-		frame = new JFrame(TITLE);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		JFrame frame = new JFrame(TITLE);
 		frame.setResizable(false);
 		frame.add(this);
 		frame.pack();
 		frame.setLocationRelativeTo(null);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
+		
 
 		this.debug = debug;
 		running = true;
-		this.run();
+		
+		Thread t = new Thread(this);
+		t.run();
 	}
 
 	public Core(int width, int height, int blockSize)
@@ -59,14 +77,13 @@ public class Core extends Canvas implements Runnable
 		new Core(width, height, blockSize, 0, false);
 	}
 
-	@Override
 	public void run()
 	{
 		while (running)
 		{
-			if(debug)
+			if (debug)
 			{
-				while(MazeGenerator.perfomStep())
+				while (MazeGenerator.perfomStep())
 				{
 					maze = MazeGenerator.getMaze();
 					try
@@ -78,13 +95,23 @@ public class Core extends Canvas implements Runnable
 						e.printStackTrace();
 					}
 				}
-				
+
 			}
-			
+
 			render();
+			update();
 		}
+		
+		System.exit(0);
 	}
 	
+	public void update()
+	{
+		input.update();
+		input.printKeys();
+//		if(input.keyPressed(KeyBoa);)
+	}
+
 	public void render()
 	{
 		BufferStrategy bs = getBufferStrategy();
@@ -98,13 +125,46 @@ public class Core extends Canvas implements Runnable
 		Graphics g = bs.getDrawGraphics();
 
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, (int)dim.getWidth(), (int)dim.getHeight());
-		
-		//TODO: rendering mechanic
-		
-		
-		
-		
+		g.fillRect(0, 0, (int) dim.getWidth(), (int) dim.getHeight());
+
+		// TODO: rendering mechanic
+
+		// NON-debug code
+		if (!debug)
+		{
+			for (int y = 0; y < gridHeight; y++)
+			{
+				for (int x = 0; x < gridWidth; x++)
+				{
+					g.setColor(Color.WHITE);
+					g.drawRect(x * blockSize, y * blockSize, x * blockSize
+							+ blockSize, y * blockSize + blockSize);
+				}
+			}
+
+			for (int y = 0; y < gridHeight; y++)
+				for (int x = 0; x < gridWidth; x++)
+				{
+					g.setColor(Color.BLACK);
+					if ((maze[x][y].getWalls() & 0x0100) >> 2 == 0)
+					{
+						g.setColor(Color.BLACK);
+						g.drawLine(x * blockSize + 1,
+								y * blockSize + blockSize, x * blockSize
+										+ (blockSize - 1), y * blockSize
+										+ blockSize);
+					}
+
+					g.setColor(Color.BLACK);
+					if ((maze[x][y].getWalls() & 0x0010) >> 1 == 0)
+					{
+						g.setColor(Color.BLACK);
+						g.drawLine(x * blockSize, y * blockSize + 1, x
+								* blockSize, y * blockSize + (blockSize - 1));
+					}
+				}
+		}
+
 		g.dispose();
 		bs.show();
 	}
