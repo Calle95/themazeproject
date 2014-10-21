@@ -15,6 +15,7 @@ import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import java.awt.event.ActionListener;
+import javax.swing.JCheckBox;
 
 public class Window
 {
@@ -114,14 +115,26 @@ public class Window
 		lblSeed.setBounds(10, 138, 70, 14);
 		frmMazeGenerator.getContentPane().add(lblSeed);
 		
+		final JCheckBox chckbxDebugMode = new JCheckBox("Debug Mode");
+		chckbxDebugMode.setBounds(10, 167, 205, 23);
+		frmMazeGenerator.getContentPane().add(chckbxDebugMode);
+		
 		JButton btnGenerate = new JButton("Generate");
 		btnGenerate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
-				new Core(Integer.valueOf(txtFWidth.getText()), Integer.valueOf(txtFHeight.getText()), Integer.valueOf(txtFBlockS.getText()), Integer.valueOf(txtFSeed.getText()));
+				close();
+				new Core(Integer.valueOf(txtFWidth.getText()), Integer.valueOf(txtFHeight.getText()), Integer.valueOf(txtFBlockS.getText()), Integer.valueOf(txtFSeed.getText()), chckbxDebugMode.isSelected());
 			}
 		});
-		btnGenerate.setBounds(10, 166, 205, 80);
+		btnGenerate.setBounds(10, 197, 205, 49);
 		frmMazeGenerator.getContentPane().add(btnGenerate);
+		
+		
+	}
+	
+	public void close()
+	{
+		frmMazeGenerator.dispose();
 	}
 }
