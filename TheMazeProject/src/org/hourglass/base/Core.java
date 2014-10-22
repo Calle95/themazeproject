@@ -3,7 +3,10 @@ package org.hourglass.base;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
@@ -14,6 +17,15 @@ public class Core extends Canvas implements Runnable
 	 * 
 	 */
 	private static final long serialVersionUID = 3787548247542872040L;
+	
+	private enum State
+	{
+
+		MAIN_MENU;
+
+	};
+	
+	private State state;
 
 	private static final String TITLE = "Maze Generator";
 	private static final int WIDTH = 480;
@@ -29,6 +41,7 @@ public class Core extends Canvas implements Runnable
 
 	private static Cell[][] maze;
 	private static Input input;
+	private JFrame frame;
 
 //	private JFrame frame;
 
@@ -42,6 +55,8 @@ public class Core extends Canvas implements Runnable
 		
 		input = new Input();
 		
+		state = State.MAIN_MENU;
+		
 		dim = new Dimension(WIDTH, HEIGHT);
 		setPreferredSize(dim);
 		setMinimumSize(dim);
@@ -50,7 +65,7 @@ public class Core extends Canvas implements Runnable
 		addMouseListener(input);
 		addMouseMotionListener(input);
 
-		JFrame frame = new JFrame(TITLE);
+		frame = new JFrame(TITLE);
 		frame.setResizable(false);
 		frame.add(this);
 		frame.pack();
@@ -80,8 +95,19 @@ public class Core extends Canvas implements Runnable
 	public void update()
 	{
 		input.update();
-		System.out.println(input.printMousePos());
+		
+		switch(state)
+		{
+		case MAIN_MENU:
+			
+			temp.setLocation(input.getPos().getX(), input.getPos().getY());
+			
+			
+			break;
+		}
 	}
+	
+	Point temp = new Point(0,0);
 
 	public void render()
 	{
@@ -99,6 +125,20 @@ public class Core extends Canvas implements Runnable
 		g.fillRect(0, 0, (int) dim.getWidth(), (int) dim.getHeight());
 
 		// TODO: rendering algorithm
+		
+		
+		switch(state)
+		{
+		case MAIN_MENU:
+			
+			g.setFont(new Font("Verdana", 0, 20));
+			FontMetrics fm = g.getFontMetrics(g.getFont());
+			
+			g.setColor(Color.WHITE);
+			g.drawString("Maze Generator", WIDTH / 2 - fm.stringWidth("Maze Generator") / 2, 40);
+			
+			break;
+		}
 
 // NON-debug code
 //		
