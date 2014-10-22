@@ -28,8 +28,8 @@ public class Core extends Canvas implements Runnable
 	private State state;
 
 	private static final String TITLE = "Maze Generator";
-	private static final int WIDTH = 480;
-	private static final int HEIGHT = 400;
+	public static final int WIDTH = 360;
+	public static final int HEIGHT = 300;
 	
 	private static boolean running;
 	private static boolean debug;
@@ -41,6 +41,7 @@ public class Core extends Canvas implements Runnable
 
 	private static Cell[][] maze;
 	private static Input input;
+	private MainMenu menu;
 	private JFrame frame;
 
 //	private JFrame frame;
@@ -54,6 +55,7 @@ public class Core extends Canvas implements Runnable
 		this.debug = false;
 		
 		input = new Input();
+		menu = new MainMenu();
 		
 		state = State.MAIN_MENU;
 		
@@ -131,11 +133,7 @@ public class Core extends Canvas implements Runnable
 		{
 		case MAIN_MENU:
 			
-			g.setFont(new Font("Verdana", 0, 20));
-			FontMetrics fm = g.getFontMetrics(g.getFont());
-			
-			g.setColor(Color.WHITE);
-			g.drawString("Maze Generator", WIDTH / 2 - fm.stringWidth("Maze Generator") / 2, 40);
+			menu.render(g);
 			
 			break;
 		}
