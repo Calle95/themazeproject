@@ -19,6 +19,8 @@ import javax.swing.JCheckBox;
 
 public class Window
 {
+	
+	//REMOVE THIS CLASS
 
 	private JFrame frmMazeGenerator;
 	private JTextField txtFWidth;
