@@ -32,7 +32,10 @@ public class MainMenu
 	
 	public void update(Input i)
 	{
-		
+		tbWidth.update(i);
+		tbHeight.update(i);
+		tbBlockSize.update(i);
+		tbSeed.update(i);
 	}
 	
 	public void render(Graphics g)

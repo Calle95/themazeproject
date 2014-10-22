@@ -103,7 +103,7 @@ public class Core extends Canvas implements Runnable
 		case MAIN_MENU:
 			
 			temp.setLocation(input.getPos().getX(), input.getPos().getY());
-			
+			menu.update(input);
 			
 			break;
 		}
