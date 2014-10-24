@@ -89,6 +89,7 @@ public class Core extends Canvas implements Runnable
 		{
 			update();
 			render();
+			input.update();
 		}
 		
 		System.exit(0);
@@ -96,7 +97,7 @@ public class Core extends Canvas implements Runnable
 	
 	public void update()
 	{
-		input.update();
+		
 		
 		switch(state)
 		{

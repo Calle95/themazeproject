@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 
 public class MainMenu
 {
@@ -12,6 +13,7 @@ public class MainMenu
 	TextBlock tbHeight;
 	TextBlock tbBlockSize;
 	TextBlock tbSeed;
+	Button btnGenerate;
 	
 	public MainMenu()
 	{
@@ -28,6 +30,7 @@ public class MainMenu
 		tbHeight = new TextBlock("50", 150, 200, 114);
 		tbBlockSize = new TextBlock("8", 150, 200, 144);
 		tbSeed = new TextBlock(150, 200, 174);
+		btnGenerate = new Button("Generate", Core.WIDTH - 6, 90, 3, 205);
 	}
 	
 	public void update(Input i)
@@ -36,6 +39,7 @@ public class MainMenu
 		tbHeight.update(i);
 		tbBlockSize.update(i);
 		tbSeed.update(i);
+		btnGenerate.update(i);
 	}
 	
 	public void render(Graphics g)
@@ -63,5 +67,6 @@ public class MainMenu
 		tbHeight.render(g);
 		tbBlockSize.render(g);
 		tbSeed.render(g);
+		btnGenerate.render(g);
 	}
 }

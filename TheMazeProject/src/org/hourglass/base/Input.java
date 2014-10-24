@@ -22,6 +22,8 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener
 	
 	private boolean mousePressed = false;
 	private boolean mouseReleased = false;
+	
+	private boolean click = false;
 
 	boolean[] keys;
 
@@ -52,6 +54,8 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener
 		for (int i = 0; i < NUM_KEYCODES; i++)
 			if (getKey(i))
 				currentKeys.add(i);
+		
+		click = false;
 	}
 
 	private boolean getKey(int i)
@@ -114,8 +118,10 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
-		// TODO Auto-generated method stub
-		
+		if(!click)
+		{
+			click = true;
+		}
 	}
 
 	@Override
@@ -160,6 +166,11 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener
 	public boolean mouseReleased()
 	{
 		return mouseReleased;
+	}
+	
+	public boolean mouseClick()
+	{
+		return click;
 	}
 
 }
