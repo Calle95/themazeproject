@@ -1,4 +1,4 @@
-package org.hourglass.base;
+package org.hourglass.gui;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -7,6 +7,8 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+
+import org.hourglass.base.Input;
 
 public class TextBlock
 {

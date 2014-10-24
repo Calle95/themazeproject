@@ -52,13 +52,13 @@ public class MazeGenerator
 
 	public static boolean perfomStep()
 	{
-		
+
 		if (remainingCells.isEmpty())
 		{
 			stack.removeAll(stack);
 			return false;
 		}
-		
+
 		if (checkForNeighbors(currentCell.getX(), currentCell.getY()).isEmpty())
 		{
 			stack.remove(stack.size() - 1);
@@ -77,8 +77,6 @@ public class MazeGenerator
 			stack.add(maze[currentCell.getX()][currentCell.getY()]);
 		}
 
-		
-		
 		return true;
 	}
 

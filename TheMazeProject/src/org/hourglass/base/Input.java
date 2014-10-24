@@ -17,12 +17,12 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener
 
 	public static final int NUM_KEYCODES = 256;
 	public static final int NUM_MOUSEBUTTONS = 5;
-	
+
 	Point currentPos;
-	
+
 	private boolean mousePressed = false;
 	private boolean mouseReleased = false;
-	
+
 	private boolean click = false;
 
 	boolean[] keys;
@@ -30,13 +30,13 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener
 	public Input()
 	{
 		keys = new boolean[NUM_KEYCODES];
-		currentPos = new Point(0,0);
+		currentPos = new Point(0, 0);
 	}
 
 	public void update()
 	{
 		mouseReleased = false;
-		
+
 		upKeys.clear();
 
 		for (int i = 0; i < NUM_KEYCODES; i++)
@@ -54,7 +54,7 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener
 		for (int i = 0; i < NUM_KEYCODES; i++)
 			if (getKey(i))
 				currentKeys.add(i);
-		
+
 		click = false;
 	}
 
@@ -88,10 +88,10 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener
 	{
 		return upKeys.contains(keyCode);
 	}
-	
+
 	public void printKeys()
 	{
-		for(int i = 0; i < currentKeys.size(); i ++)
+		for (int i = 0; i < currentKeys.size(); i++)
 		{
 			System.out.println(currentKeys.get(i));
 		}
@@ -101,7 +101,7 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener
 	public void mouseDragged(MouseEvent e)
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -109,7 +109,7 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener
 	{
 		currentPos = e.getPoint();
 	}
-	
+
 	public Point getPos()
 	{
 		return currentPos;
@@ -118,7 +118,7 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
-		if(!click)
+		if (!click)
 		{
 			click = true;
 		}
@@ -128,21 +128,21 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener
 	public void mouseEntered(MouseEvent e)
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e)
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
 		mousePressed = true;
-		
+
 	}
 
 	@Override
@@ -150,24 +150,24 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener
 	{
 		mousePressed = false;
 		mouseReleased = true;
-		
+
 	}
-	
+
 	public String printMousePos()
 	{
 		return "(" + currentPos.x + ", " + currentPos.y + ")";
 	}
-	
+
 	public boolean mousePressed()
 	{
 		return mousePressed;
 	}
-	
+
 	public boolean mouseReleased()
 	{
 		return mouseReleased;
 	}
-	
+
 	public boolean mouseClick()
 	{
 		return click;

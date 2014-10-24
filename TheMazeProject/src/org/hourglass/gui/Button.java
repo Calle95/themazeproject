@@ -1,4 +1,4 @@
-package org.hourglass.base;
+package org.hourglass.gui;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -6,6 +6,8 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+
+import org.hourglass.base.Input;
 
 public class Button
 {
@@ -89,5 +91,10 @@ public class Button
 	public void press()
 	{
 		pressed = true;
+	}
+	
+	public boolean isPressed()
+	{
+		return pressed;
 	}
 }
