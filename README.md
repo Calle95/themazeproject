@@ -2,6 +2,7 @@ themazeproject
 ==============
 
 
-* Cleanup code
-* Fix rendering slowdowns
-* Add pathfinding
+*Solve input bugs
+*Clean up maze algorithm
+*Improve rendering speed
+*Pathfinding
