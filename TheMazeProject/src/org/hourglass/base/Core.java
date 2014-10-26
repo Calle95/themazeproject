@@ -39,12 +39,14 @@ public class Core extends Canvas implements Runnable
 	private static boolean running;
 	private static boolean debug;
 	private static Dimension dim;
+	private static Dimension dimWindow;
 	private static int gridWidth;
 	private static int gridHeight;
 	private static int blockSize;
 	private static long seed;
-	
+
 	private static int delay;
+	private static long timer;
 
 	private static Cell[][] maze;
 	private static Input input;
@@ -55,12 +57,13 @@ public class Core extends Canvas implements Runnable
 
 	public Core()
 	{
-		this.gridWidth = 60;
-		this.gridHeight = 50;
-		this.blockSize = 8;
-		this.seed = System.currentTimeMillis();
-		this.debug = false;
-		this.delay = 100;
+		gridWidth = 60;
+		gridHeight = 50;
+		blockSize = 8;
+		seed = System.currentTimeMillis();
+		debug = false;
+		delay = 100;
+		timer = System.currentTimeMillis();
 
 		input = new Input();
 		menu = new MainMenu();
@@ -68,6 +71,7 @@ public class Core extends Canvas implements Runnable
 		state = State.MAIN_MENU;
 
 		dim = new Dimension(WIDTH, HEIGHT);
+		dimWindow = new Dimension(WIDTH, HEIGHT);
 		setPreferredSize(dim);
 		setMinimumSize(dim);
 		setMaximumSize(dim);
@@ -140,9 +144,10 @@ public class Core extends Canvas implements Runnable
 		case MAZE_SETUP:
 
 			dim = new Dimension(gridWidth * blockSize, gridHeight * blockSize);
-			setPreferredSize(dim);
-			setMinimumSize(dim);
-			setMaximumSize(dim);
+			dimWindow = new Dimension(gridWidth * blockSize, gridHeight * blockSize + 40);
+			setPreferredSize(dimWindow);
+			setMinimumSize(dimWindow);
+			setMaximumSize(dimWindow);
 			frame.pack();
 			frame.setLocationRelativeTo(null);
 
@@ -155,30 +160,29 @@ public class Core extends Canvas implements Runnable
 
 		case MAZE_LOOP:
 
-			if (!MazeGenerator.getRemainingCells().isEmpty())
+			if (timer <= System.currentTimeMillis())
 			{
-				MazeGenerator.perfomStep();
-				maze = MazeGenerator.getMaze();
+				if (!MazeGenerator.getRemainingCells().isEmpty())
+				{
+					MazeGenerator.perfomStep();
+					maze = MazeGenerator.getMaze();
+				}
+				
+				timer = System.currentTimeMillis() + delay;
 			}
 			
-			if(input.getKeyDown(KeyEvent.VK_PLUS))
+			if (input.getKeyDown(107))
 			{
-				System.out.println("oiawd");
 				delay += 10;
 			}
-				
-			if(input.getKeyDown(KeyEvent.VK_DOWN))
-				delay -= 10;
-			
-			try
-			{
-				Thread.sleep(delay);
-			} catch (InterruptedException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 
+			if (input.getKeyDown(109))
+			{
+				delay -= 10;
+				if(delay < 0)
+					delay = 0;
+			}
+			
 			break;
 		}
 	}
@@ -198,7 +202,7 @@ public class Core extends Canvas implements Runnable
 		Graphics g = bs.getDrawGraphics();
 
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, (int) dim.getWidth(), (int) dim.getHeight());
+		g.fillRect(0, 0, (int) dimWindow.getWidth(), (int) dimWindow.getHeight());
 
 		// TODO: rendering algorithm
 
