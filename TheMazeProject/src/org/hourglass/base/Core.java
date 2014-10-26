@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 
@@ -42,6 +43,8 @@ public class Core extends Canvas implements Runnable
 	private static int gridHeight;
 	private static int blockSize;
 	private static long seed;
+	
+	private static int delay;
 
 	private static Cell[][] maze;
 	private static Input input;
@@ -57,6 +60,7 @@ public class Core extends Canvas implements Runnable
 		this.blockSize = 8;
 		this.seed = System.currentTimeMillis();
 		this.debug = false;
+		this.delay = 100;
 
 		input = new Input();
 		menu = new MainMenu();
@@ -141,7 +145,40 @@ public class Core extends Canvas implements Runnable
 			setMaximumSize(dim);
 			frame.pack();
 			frame.setLocationRelativeTo(null);
+
+			MazeGenerator.initStepWise(gridWidth, gridHeight, seed);
+			maze = MazeGenerator.getMaze();
+
+			state = State.MAZE_LOOP;
+
+			break;
+
+		case MAZE_LOOP:
+
+			if (!MazeGenerator.getRemainingCells().isEmpty())
+			{
+				MazeGenerator.perfomStep();
+				maze = MazeGenerator.getMaze();
+			}
 			
+			if(input.getKeyDown(KeyEvent.VK_PLUS))
+			{
+				System.out.println("oiawd");
+				delay += 10;
+			}
+				
+			if(input.getKeyDown(KeyEvent.VK_DOWN))
+				delay -= 10;
+			
+			try
+			{
+				Thread.sleep(delay);
+			} catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 			break;
 		}
 	}
@@ -174,48 +211,46 @@ public class Core extends Canvas implements Runnable
 			break;
 
 		case MAZE_SETUP:
-			
-			
+
+			break;
+
+		case MAZE_LOOP:
+
+			g.setColor(Color.WHITE);
+
+			if (gridWidth >= gridHeight)
+				for (int i = 0; i < gridWidth; i++)
+				{
+					g.drawLine(0, i * blockSize, (int) dim.getWidth(), i * blockSize);
+					g.drawLine(i * blockSize, 0, i * blockSize, (int) dim.getHeight());
+				}
+			else
+				for (int i = 0; i < gridHeight; i++)
+				{
+					g.drawLine(0, i * blockSize, (int) dim.getWidth(), i * blockSize);
+					g.drawLine(i * blockSize, 0, i * blockSize, (int) dim.getHeight());
+				}
+
+			g.setColor(Color.BLACK);
+
+			for (int i = 0; i < MazeGenerator.getVisitedCells().size(); i++)
+			{
+				if ((MazeGenerator.getVisitedCells().get(i).getWalls() & 0x0100) >> 2 == 0)
+				{
+					g.drawLine(MazeGenerator.getVisitedCells().get(i).getX() * blockSize + 1, MazeGenerator.getVisitedCells().get(i).getY() * blockSize + blockSize, MazeGenerator.getVisitedCells()
+							.get(i).getX()
+							* blockSize + (blockSize - 1), MazeGenerator.getVisitedCells().get(i).getY() * blockSize + blockSize);
+				}
+
+				if ((MazeGenerator.getVisitedCells().get(i).getWalls() & 0x0010) >> 1 == 0)
+				{
+					g.drawLine(MazeGenerator.getVisitedCells().get(i).getX() * blockSize, MazeGenerator.getVisitedCells().get(i).getY() * blockSize + 1, MazeGenerator.getVisitedCells().get(i).getX()
+							* blockSize, MazeGenerator.getVisitedCells().get(i).getY() * blockSize + (blockSize - 1));
+				}
+			}
 
 			break;
 		}
-
-		// NON-debug code
-		//
-		// if (!debug)
-		// {
-		// for (int y = 0; y < gridHeight; y++)
-		// {
-		// for (int x = 0; x < gridWidth; x++)
-		// {
-		// g.setColor(Color.WHITE);
-		// g.drawRect(x * blockSize, y * blockSize, x * blockSize
-		// + blockSize, y * blockSize + blockSize);
-		// }
-		// }
-		//
-		// for (int y = 0; y < gridHeight; y++)
-		// for (int x = 0; x < gridWidth; x++)
-		// {
-		// g.setColor(Color.BLACK);
-		// if ((maze[x][y].getWalls() & 0x0100) >> 2 == 0)
-		// {
-		// g.setColor(Color.BLACK);
-		// g.drawLine(x * blockSize + 1,
-		// y * blockSize + blockSize, x * blockSize
-		// + (blockSize - 1), y * blockSize
-		// + blockSize);
-		// }
-		//
-		// g.setColor(Color.BLACK);
-		// if ((maze[x][y].getWalls() & 0x0010) >> 1 == 0)
-		// {
-		// g.setColor(Color.BLACK);
-		// g.drawLine(x * blockSize, y * blockSize + 1, x
-		// * blockSize, y * blockSize + (blockSize - 1));
-		// }
-		// }
-		// }
 
 		g.dispose();
 		bs.show();

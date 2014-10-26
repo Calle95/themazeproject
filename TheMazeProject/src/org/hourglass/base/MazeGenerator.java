@@ -10,11 +10,23 @@ public class MazeGenerator
 {
 	private static ArrayList<Cell> stack;
 	private static ArrayList<Cell> remainingCells;
+	private static ArrayList<Cell> visitedCells;
 	private static Cell maze[][];
 	private static Cell currentCell;
 	private static int GRID_WIDTH, GRID_HEIGHT;
 
 	static Random r;
+	
+//	public static Cell[][] initEmptyMaze(int gridWidth, int gridHeight)
+//	{
+//		for (int i = 0; i < gridWidth; i++)
+//			for (int j = 0; j < gridHeight; j++)
+//			{
+//				maze[i][j] = new Cell(i, j);
+//			}
+//		
+//		return maze;
+//	}
 
 	public static void initStepWise(int x, int y, long seed)
 	{
@@ -23,6 +35,7 @@ public class MazeGenerator
 
 		stack = new ArrayList<Cell>();
 		remainingCells = new ArrayList<Cell>();
+		visitedCells = new ArrayList<Cell>();
 
 		// Init array of cells
 		maze = new Cell[x][y];
@@ -45,6 +58,7 @@ public class MazeGenerator
 		maze[currentCell.getX()][currentCell.getY()].visit();
 		stack.add(maze[currentCell.getX()][currentCell.getY()]);
 		remainingCells.remove(maze[currentCell.getX()][currentCell.getY()]);
+		visitedCells.add(currentCell);
 
 		// Initiating random with given seed
 		r = new Random(seed);
@@ -69,7 +83,7 @@ public class MazeGenerator
 			currentCell = checkForNeighbors(currentCell.getX(), currentCell.getY()).get(Math.abs(r.nextInt()) % checkForNeighbors(currentCell.getX(), currentCell.getY()).size());
 			maze[currentCell.getX()][currentCell.getY()].visit();
 			remainingCells.remove(currentCell);
-
+			visitedCells.add(currentCell);
 			maze[currentCell.getX()][currentCell.getY()].removeWall(wallToRemove(currentCell.getX(), currentCell.getY(), stack.get(stack.size() - 1).getX(), stack.get(stack.size() - 1).getY()));
 			maze[stack.get(stack.size() - 1).getX()][stack.get(stack.size() - 1).getY()].removeWall(wallToRemove(stack.get(stack.size() - 1).getX(), stack.get(stack.size() - 1).getY(),
 					currentCell.getX(), currentCell.getY()));
@@ -232,5 +246,15 @@ public class MazeGenerator
 	public static void setCurrentCell(Cell currentCell)
 	{
 		MazeGenerator.currentCell = currentCell;
+	}
+
+	public static ArrayList<Cell> getVisitedCells()
+	{
+		return visitedCells;
+	}
+
+	public static void setVisitedCells(ArrayList<Cell> visitedCells)
+	{
+		MazeGenerator.visitedCells = visitedCells;
 	}
 }
