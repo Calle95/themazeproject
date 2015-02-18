@@ -30,10 +30,10 @@ public class MainMenu
 			private static final long serialVersionUID = -8098706258636406700L;
 		};
 
-		tbWidth = new TextBlock("60", 150, 200, 84);
-		tbHeight = new TextBlock("50", 150, 200, 114);
-		tbBlockSize = new TextBlock("8", 150, 200, 144);
-		tbSeed = new TextBlock(150, 200, 174);
+		tbWidth = new TextBlock("60", 150, 200, 84, 60);
+		tbHeight = new TextBlock("50", 150, 200, 114, 50);
+		tbBlockSize = new TextBlock("8", 150, 200, 144, 8);
+		tbSeed = new TextBlock(150, 200, 174, System.currentTimeMillis());
 		btnGenerate = new Button("Generate", Core.WIDTH - 6, 90, 3, 205);
 	}
 
@@ -63,8 +63,8 @@ public class MainMenu
 		g.setFont(new Font("Verdana", 0, 16));
 		g.drawString("Grid width:", 10, 100);
 		g.drawString("Grid height:", 10, 130);
-		g.drawString("Grid block size:", 10, 160);
-		g.drawString("Grid seed:", 10, 190);
+		g.drawString("Block size:", 10, 160);
+		g.drawString("Seed:", 10, 190);
 
 		tbWidth.render(g);
 		tbHeight.render(g);

@@ -124,13 +124,13 @@ public class Core extends Canvas implements Runnable
 				for (int i = 0; i < values.size() - 1; i++)
 				{
 					if (values.get(i).getLabel().equals("width"))
-						gridWidth = values.get(i).getValue();
+						gridWidth = (int) values.get(i).getValue();
 
 					if (values.get(i).getLabel().equals("height"))
-						gridHeight = values.get(i).getValue();
+						gridHeight = (int) values.get(i).getValue();
 
 					if (values.get(i).getLabel().equals("blocksize"))
-						blockSize = values.get(i).getValue();
+						blockSize = (int) values.get(i).getValue();
 
 					if (values.get(i).getLabel().equals("seed"))
 						seed = values.get(i).getValue();

@@ -3,9 +3,15 @@ package org.hourglass.gui;
 public class LblValue
 {
 	String label;
-	int value;
+	long value;
 	
 	public LblValue(String label, int value)
+	{
+		this.label = label;
+		this.value = value;
+	}
+	
+	public LblValue(String label, long value)
 	{
 		this.label = label;
 		this.value = value;
@@ -21,7 +27,7 @@ public class LblValue
 		this.label = label;
 	}
 
-	public int getValue()
+	public long getValue()
 	{
 		return value;
 	}

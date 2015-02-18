@@ -17,11 +17,12 @@ public class TextBlock
 	private int width;
 	private int height;
 	private int x, y;
+	private long nullReturn;
 
 	private boolean hover = false;
 	private Rectangle box;
 
-	public TextBlock(String text, int width, int x, int y)
+	public TextBlock(String text, int width, int x, int y, long nullReturn)
 	{
 		fm = new FontMetrics(null)
 		{
@@ -37,13 +38,14 @@ public class TextBlock
 		this.height = 20;
 		this.x = x;
 		this.y = y;
+		this.nullReturn = nullReturn;
 
 		this.box = new Rectangle(x, y, width, height);
 	}
 
-	public TextBlock(int width, int x, int y)
+	public TextBlock(int width, int x, int y, long nullReturn)
 	{
-		this("", width, x, y);
+		this("", width, x, y, nullReturn);
 	}
 
 	public void update(Input i)
@@ -124,9 +126,12 @@ public class TextBlock
 			text = text.substring(0, text.length() - 1);
 		}
 	}
-	
-	public int value()
+
+	public long value()
 	{
-		return Integer.valueOf(text);
+		if (!text.isEmpty())
+			return Integer.valueOf(text);
+		else
+			return nullReturn;
 	}
 }
